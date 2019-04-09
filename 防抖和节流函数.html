@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div style="height: 20000px">
+
+  </div>
+</body>
+</html>
+<script>
+  /**
+   * 防抖函数
+   * @param method 事件触发的操作
+   * @param delay 多少毫秒内连续触发事件，不会执行
+   * @returns {Function}
+   */
+  function debounce(method,delay) {
+    let timer = null;
+    return function () {
+      let self = this,
+        args = arguments;
+      timer && clearTimeout(timer);
+      timer = setTimeout(function () {
+        method.apply(self,args);
+      },delay);
+    }
+  }
+ // window.onscroll = debounce(function () {
+ //   let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+ //   console.log('滚动条位置：' + scrollTop);
+ // },500)
+  /**
+   * 节流函数
+   * @param method 事件触发的操作
+   * @param mustRunDelay 间隔多少毫秒需要触发一次事件
+   */
+  function throttle(method, mustRunDelay) {
+    let timer,
+      args = arguments,
+      start;
+    return function loop() {
+      let self = this;
+      let now = Date.now();
+      if(!start){
+        start = now;
+      }
+      if(timer){
+        clearTimeout(timer);
+      }
+      if(now - start >= mustRunDelay){
+        method.apply(self, args);
+        start = now;
+      }else {
+        timer = setTimeout(function () {
+          // loop.apply(self, args);
+        }, 50);
+      }
+    }
+  }
+  window.onscroll = throttle(function () {
+    let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    console.log('滚动条位置：' + scrollTop);
+  },800)
+
+  // npm config set registry https://registry.npm.taobao.org/
+
+
+
+
+  function fangdou(method,delay) {
+    let timer = null
+    return function () {
+      var self = this
+      var agrs = agreements
+      timer && clearInterval(timer)
+      timer = setTimeout(function () {
+        method.apply(self,agrs)
+      },delay)
+    }
+  }
+
+</script>

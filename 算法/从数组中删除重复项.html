@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+   /**
+  * @param {number[]} nums
+  * @return {number}
+   * * */
+  var removeDuplicates = function(nums) {
+     var array = []
+     nums.forEach(function (e) {
+       if(array.indexOf(e) < 0){
+         array.push(e)
+       }
+     })
+     return array;
+  };
+//  var arr = [0,0,1,1,1,2,2,3,3,4];
+//   console.log(removeDuplicates(arr));
+//
+//  var arr = [1,2,3]
+//  var arr = [1,2,3,4]
+  var arr = [1,2,3,4,5]
+  var nnnn = 0
+  function splitArray(arr,num) {
+    var r=[];
+    (function f(t,a,n){
+      if (n == 0) return r.push(t);
+      for (var i=0,l=a.length; i<=l-n; i++) {
+        f(t.concat(a[i]), a.slice(i+1), n-1);
+      }
+    })([],arr,num);
+    return r;
+  }
+   splitArray(arr,3)
+</script>

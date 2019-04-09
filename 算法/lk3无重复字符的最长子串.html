@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+  /**
+   * @param {string} s
+   * @return {number}
+   */
+  var lengthOfLongestSubstring = function(s) {
+    if(s){
+      var childStrArr = []
+      for (let i = 0;i<=s.length;i++){
+        for (let j = i+1; j <= s.length; j++) {
+          if(!isRepeat(s.substring(i,j).split(''))){
+            childStrArr.push(s.substring(i,j).length)
+          }
+        }
+      }
+      return Math.max.apply(null,childStrArr)
+    }else {
+      return 0
+    }
+  };
+  function isRepeat(arr){
+    let  hash = {};
+    for(let i in arr) {
+      if(hash[arr[i]]) {
+        return true;
+      }
+      hash[arr[i]] = true;
+    }
+    return false;
+  }
+  /**
+   * 第一种总是时间超出限制,下面是第二种
+   * */
+  var lengthOfLongestSubstring = function(s) {
+    var n = s.length, result = 0, map = {};
+    for (var j = 0, i = 0; j < n; j++) {
+      if (map.hasOwnProperty(s.charAt(j))) {
+        i = Math.max(map[s.charAt(j)], i);
+      }
+      result = Math.max(result, j - i + 1);
+      map[s.charAt(j)] = j+1
+    }
+    return result;
+  }
+  var str = "abcabcbb"
+  console.log(lengthOfLongestSubstring(str));
+</script>
