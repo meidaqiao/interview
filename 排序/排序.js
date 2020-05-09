@@ -15,7 +15,7 @@ function sort(arr) {
 }
 var elements = [3,1,4,2,2,5,8,9,7,19,13,12]
 console.log(elements);
-var b = [3,1,4,2,5,8,9,7,19,13,12].sort(function (a,b) {
-    return b-a
-})
+// var b = [3,1,4,2,5,8,9,7,19,13,12].sort(function (a,b) {
+//     return b-a
+// })
 console.log(sort(elements));

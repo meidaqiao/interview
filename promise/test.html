@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+  new myPromise(function (resolve, reject) {
+    setTimeout(function () {
+      // resolve(1)
+      reject(2)
+    }, 1000)
+  }).then((d) => {
+    console.log("resolve" + d);
+  }, (d)=>{
+    console.log("reject" + d);
+  })
+  function myPromise(fn){
+    var state = "padding"
+    var successThenArr = []
+    var failThenArr = []
+    function todoThen(){
+      if(state == "resolve"){
+        for (let i = 0; i < successThenArr.length; i++) {
+          successThenArr[i].apply(null,arguments)
+        }
+      }
+      if(state == "reject"){
+        for (let i = 0; i < failThenArr.length; i++) {
+          failThenArr[i].apply(null,arguments)
+        }
+      }
+    }
+    this.then = function(success, fail){
+      successThenArr.push(success)
+      failThenArr.push(fail)
+      return this
+    }
+    function resolveDo(){
+      state = "resolve"
+      todoThen.apply(null, arguments)
+    }
+    function rejectDo(){
+      state = "reject"
+      todoThen.apply(null, arguments)
+    }
+    fn.call(null, resolveDo, rejectDo)
+  }
+  myPromise.prototype.all = function(promiseArr){
+    
+  }
+</script>

@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
+
 <body>
   <div style="height: 20000px">
 
   </div>
 </body>
+
 </html>
 <script>
   /**
@@ -17,21 +20,21 @@
    * @param delay 多少毫秒内连续触发事件，不会执行
    * @returns {Function}
    */
-  function debounce(method,delay) {
+  function debounce(method, delay) {
     let timer = null;
     return function () {
       let self = this,
         args = arguments;
       timer && clearTimeout(timer);
       timer = setTimeout(function () {
-        method.apply(self,args);
-      },delay);
+        method.apply(self, args);
+      }, delay);
     }
   }
- // window.onscroll = debounce(function () {
- //   let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
- //   console.log('滚动条位置：' + scrollTop);
- // },500)
+  // window.onscroll = debounce(function () {
+  //   let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  //   console.log('滚动条位置：' + scrollTop);
+  // },500)
   /**
    * 节流函数
    * @param method 事件触发的操作
@@ -44,16 +47,16 @@
     return function loop() {
       let self = this;
       let now = Date.now();
-      if(!start){
+      if (!start) {
         start = now;
       }
-      if(timer){
+      if (timer) {
         clearTimeout(timer);
       }
-      if(now - start >= mustRunDelay){
+      if (now - start >= mustRunDelay) {
         method.apply(self, args);
         start = now;
-      }else {
+      } else {
         timer = setTimeout(function () {
           // loop.apply(self, args);
         }, 50);
@@ -63,23 +66,75 @@
   window.onscroll = throttle(function () {
     let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
     console.log('滚动条位置：' + scrollTop);
-  },800)
+  }, 800)
 
   // npm config set registry https://registry.npm.taobao.org/
 
-
-
-
-  function fangdou(method,delay) {
-    let timer = null
+  function fangdou(method, time) {
+    var timer = null
     return function () {
-      var self = this
-      var agrs = agreements
-      timer && clearInterval(timer)
-      timer = setTimeout(function () {
-        method.apply(self,agrs)
-      },delay)
+      let self = this;
+      let args = arguments;
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
+        method.apply(self, args)
+      }, time)
+    }
+  }
+  var throttle = function (func, delay) {
+    var timer = null;
+    var startTime = Date.now(); //设置开始时间
+    return function () {
+      var curTime = Date.now();
+      var remaining = delay - (curTime - startTime); //剩余时间
+      var context = this;
+      var args = arguments;
+      clearTimeout(timer);
+      if (remaining <= 0) { // 第一次触发立即执行
+        func.apply(context, args);
+        startTime = Date.now();
+      } else {
+        timer = setTimeout(func, remaining); //取消当前计数器并计算新的remaining
+      }
     }
   }
 
+  function jieliu(func, delay) {
+    var timer = null;
+    var startTime = Date.now();
+    return function () {
+      var curTime = Date.now();
+      var args = arguments
+      var that = this
+      var remainTime = delay - curTime + startTime;
+      clearTimeout(timer);
+      if (remaining <= 0) {
+        func.apply(that, args)
+        startTime = Date.now();
+      } else {
+        timer = setTimeout(func, remaining)
+      }
+    }
+  }
+
+  var lengthOfLIS = function (nums) {
+    if (!nums.length) return 0;
+    let dp = [];
+    dp[0] = [nums[0]]
+    for (let i = 1; i < nums.length; i++) {
+      dp[i] = [nums[i]]
+      for (let j = 0; j < i; j++) {
+        if (nums[i] > nums[j] && dp[i].length < dp[j].length + 1  ) {
+          dp[i] = dp[j].concat([nums[i]])
+        }
+      }
+    }
+    console.log(dp)
+    console.log(Math.max.apply(null, dp.map(item => item.length)))
+  };
+  let ceshi = []
+  for (let i = 1; i < 2500; i++) {
+    ceshi.push(i)
+  }
+  lengthOfLIS(ceshi)
 </script>

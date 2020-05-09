@@ -33,3 +33,10 @@ function promise(fn) {
   }
   fn.call(undefined,successNotify,failNotify)
 }
+new promise(function (resolve) {
+  setTimeout(function () {
+    resolve(1)
+  },5000)
+}).then(function (d) {
+  console.log(d);
+})

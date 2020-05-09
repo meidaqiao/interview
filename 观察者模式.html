@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    /*
+* 最简单的观察者模式
+要指定一个发布者；
+给发布者添加一个缓存列表，用于存放回调函数以便通知订阅者；（这家公司很多人来应聘）
+最后发布消息的时候，发布者会遍历这个缓存列表，依次触发里面存放的订阅者回调函数；（你up or 你over）
+* */
+    // var event = {}; //发布者
+    // event.clientlist = []; //订阅者
+
+    // event.listen = function (fn) {
+    //     this.clientlist.push(fn)
+    // };
+    // event.trigger = function () {
+    //     for (var i = 0; i < this.clientlist.length; i++) {
+    //         var fn = this.clientlist[i]
+    //         fn.apply(this, arguments)
+    //     }
+    // };
+    // event.listen(function (time) {
+    //     console.log('正式上班时间' + time);
+    // });
+    // event.trigger('2019/04/11');
+
+    // 观察者
+    class Observer {
+        constructor(name) {
+            this.name = name
+        }
+        update(args) {
+            console.log(this.name + "收到了更新" + args)
+        }
+    }
+    //目标
+    class Subject {
+        constructor() {
+            this.observerList = []
+        }
+        add(observer) {
+            this.observerList.push(observer)
+        }
+        remove(observer) {
+            this.observerList = this.observerList.filter(ob => ob !== observer)
+        }
+        notify(...args) {
+            let obCount = this.observerList.length
+            for (let index = 0; index < obCount; index++) {
+                this.observerList[index].update(...args);
+            }
+        }
+    }
+    class PubSub {
+        constructor() {
+            this.subscribers = {}
+        }
+        subscribe(type, fn) {
+            if (!Object.prototype.hasOwnProperty.call(this.subscribers, type)) {
+                this.subscribers[type] = [];
+            }
+
+            this.subscribers[type].push(fn);
+        }
+        unsubscribe(type, fn) {
+            let listeners = this.subscribers[type];
+            if (!listeners || !listeners.length) return;
+            this.subscribers[type] = listeners.filter(v => v !== fn);
+        }
+        publish(type, ...args) {
+            let listeners = this.subscribers[type];
+            if (!listeners || !listeners.length) return;
+            listeners.forEach(fn => fn(...args));
+        }
+    }
+
+    // let ob = new PubSub();
+    // ob.subscribe('add', (val) => console.log(val));
+    // ob.publish('add', 1);
+    let subject = new Subject()
+    var obs1 = new Observer('ob1');
+    var obs2 = new Observer('ob22');
+    subject.add(obs1)
+    subject.add(obs2)
+    subject.notify("买书")
+</script>

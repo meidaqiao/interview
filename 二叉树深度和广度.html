@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    function node(val) {
+        this.value = val;
+        this.left = this.right = null;
+    }
+    var root1 = new node(1)
+    var root2 = new node(2)
+    var root3 = new node(3)
+    var root4 = new node(4)
+    var root5 = new node(5)
+    var root6 = new node(6)
+    var root7 = new node(7)
+    var root8 = new node(8)
+    var root9 = new node(9)
+    var root10 = new node(10)
+    // root1.left = root2
+    // root1.right = root3
+    // root2.left = root4
+    // root2.right = root5
+    // root4.left = root8
+    // root5.left = root9
+    // root5.right = root10
+    // root3.left = root6
+    // root3.right = root7
+    let result = [];
+    // 前序递归版本
+
+    // let dfs = function (node) {
+    //     if (node) {
+    //         result.push(node.value);
+    //         dfs(node.left);
+    //         dfs(node.right);
+    //     }
+    // }
+
+    // 前序非递归版本
+    // let dfs = function (nodes) {
+    //     var stack = [];
+    //     stack.push(nodes)
+    //     while (stack.length !== 0){
+    //         let node = stack.pop();
+    //         result.push(node.value);
+    //         if(node.right)stack.push(node.right);
+    //         if(node.left)stack.push(node.left);
+    //     }
+    // }
+
+    // 广度优先遍历递归版本
+    let count = 0;
+    let stack = [root1]
+    // let dfs = function () {
+    //     let node = stack[count];
+    //     if (node) {
+    //         result.push([node.value])
+    //         if(node.left)stack.push(node.left);
+    //         if(node.right)stack.push(node.right);
+    //         count++
+    //         dfs()
+    //     }
+    // }
+    // 广搜非递归版
+    let dfs = function (node) {
+        let result = [];
+        let queue = [];
+        queue.push(node);
+        while (queue.length) {
+            // let node = queue.shift();
+            // result.push(node.value);
+            // node.left && queue.push(node.left);
+            // node.right && queue.push(node.right);
+            let arr = [],
+                temp = []
+            while (queue.length) {
+                let curr = queue.shift()
+                arr.push(curr.value)
+                if (curr.left) temp.push(curr.left)
+                if (curr.right) temp.push(curr.right)
+            }
+            queue = temp
+            result.push(arr)
+        }
+        console.log(result);
+        return result;
+    }
+
+    dfs(root1);
+    console.log(count);
+    console.log(result);
+    console.log(result.join("."));
+
+    function FindPath(root, expectNumber) {
+        var result = [];
+        if (root === null) {
+            return result;
+        }
+        dfsFind(root, expectNumber, [], 0, result);
+        return result;
+    }
+
+    function dfsFind(root, expectNumber, path, currentSum, result) {
+        currentSum += root.value;
+        path.push(root.value);
+        if (currentSum == expectNumber && root.left == null && root.right == null) {
+            result.push(path.slice(0));
+        }
+        if (root.left != null) {
+            dfsFind(root.left, expectNumber, path, currentSum, result);
+        }
+        if (root.right != null) {
+            dfsFind(root.right, expectNumber, path, currentSum, result);
+        }
+        console.log(path)
+        path.pop();
+    }
+    // 二叉树最短路径递归版
+    // function def(node, res) {
+    //     res.push(node.value);
+    //     if(node.left) {
+    //         def(node.left, res)
+    //     }
+    //     if(node.right) {
+    //         def(node.right, res)
+    //     }
+    //     if(node.left == null && node.right == null){
+    //         result.push(res.join(","))
+    //         if (res.reduce(function(a,b){return a+b}) === 17){
+    //         } 
+    //     }
+    //     // console.log("pop" + node.value)
+    //     res.pop()
+    // }
+    // 二叉树最短路径非递归版
+    // function dfs(nodes) {
+    //     var count = 0;
+    //     var stack = [nodes]
+    //     while (stack.length) {
+    //         var node = stack[count++]
+    //         result.push(node.value)
+
+    //     }
+    // }
+    // console.log(FindPath(root1, 11))
+    // console.log(FindPath(root1, 12))
+    // console.log(FindPath(root1, 13))
+    // console.log(FindPath(root1, 14))
+    // console.log(FindPath(root1, 15))
+    // console.log(FindPath(root1, 16))
+    // console.log(FindPath(root1, 17))
+    // def(root1, [])
+    // console.log(result)
+    var pathSum = function (root1, sum1) {
+        var result = [];
+
+        function get(root, res) {
+            res.push(root.value);
+            if (root.left) get(root.left, res);
+            if (root.right) get(root.right, res);
+            if (root.left == null && root.right == null) {
+                if (res.reduce(function (a, b) {
+                        return a + b
+                    }) === sum1) {
+                    result.push(res.map((a) => a))
+                }
+            }
+            res.pop();
+        }
+        get(root1, [])
+        return result;
+    };
+    // pathSum(root1, 11)
+    var zigzagLevelOrder = function (root) {
+        if (!root) return [];
+        let result = [];
+        let stack = [root]
+        let count = 0
+        while (stack.length) {
+            count++;
+            console.log(count)
+            let arr = [];
+            let temp = []
+            while (stack.length) {
+                let node = stack.shift();
+                if (node) arr.push(node.value);
+                if (node.left) temp.push(node.left);
+                if (node.right) temp.push(node.right);
+                console.error(temp.map((a) => a.value))
+            }
+            stack = temp;
+            result.push(count % 2 !== 0 ? arr : arr.reverse())
+        }
+        return result
+    };
+    // zigzagLevelOrder(root1)
+    var isBalanced = function (root) {
+        function recur(root) {
+            if (root == null) return 0;
+            var left = recur(root.left);
+            if (left == -1) return -1;
+            var right = recur(root.right);
+            if (right == -1) return -1;
+            return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : -1;
+        }
+        return recur(root) != -1
+    };
+    root1.left = root2
+    root1.right = root3
+    root2.left = root4
+    root7.right = root6
+    root4.left = root8
+    root5.left = root9
+    root5.right = root10
+    // root3.left = root6
+    root3.right = root7
+    isBalanced(root1)
+    console.log(isBalanced(root1))
+</script>

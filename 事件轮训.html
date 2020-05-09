@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
+
 <body>
 
 </body>
+
 </html>
 <script>
-  async function a1 () {
+  async function a1() {
     console.log('1')
     await a2()
     console.log('2')
   }
 
-  async function a2 () {
+  async function a2() {
     console.log('3')
   }
 
@@ -41,10 +44,46 @@
 
 
 
-//  41238791065
+  //  41238791065
   /**
    * 4138 10 62795
    * */
 
+  function Foo() {
+    getName = function () {
+      alert(1);
+    };
+    return this;
+  }
+  Foo.getName = function () {
+    alert(2);
+  };
+  Foo.prototype.getName = function () {
+    alert(3);
+  };
+  var getName = function () {
+    alert(4);
+  };
+  function getName() {
+    alert(5);
+  }
 
+
+  Foo.getName();
+  getName();
+  Foo().getName();
+  getName();
+  new Foo.getName();
+  new Foo().getName();
+  new new Foo().getName();
+
+  
+  //答案：
+  Foo.getName(); //2
+  getName(); //4
+  Foo().getName(); //1
+  getName(); //1
+  new Foo.getName(); //2
+  new Foo().getName(); //3
+  new new Foo().getName(); //3
 </script>

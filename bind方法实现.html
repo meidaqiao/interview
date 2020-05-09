@@ -1,19 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
+
 <body>
 
 </body>
+
 </html>
 <script>
-  Function.prototype.bind = function (context) {
-    var that = this
-    var args = Array.prototype.slice.call(arguments,1)
-    return function () {
-      return that.apply(context,args.concat(Array.prototype.slice.call(arguments)))
+  function mybind(target) {
+    if (typeof target !== 'function') {
+      throw new Error("not a function")
     }
+    const that = this;
+    let temp = function () {}
+    arg = [].slice.call(arguments, 1)
+    const f = function () {
+      return that.apply(this, arg.concat([].slice.call(arguments)))
+    }
+    temp.prototype = that.prototype
+    f.prototype = new temp();
+    return f;
   }
+
+  function myCall(target) {
+    target.fn = this;
+    let args = []
+    for (let i = 1; i < arguments.length; i++) {
+      args.push(arguments[i])
+    }
+    let result = target.fn(...args);
+    delete target.fn
+    return result;
+  }
+  // 股票最大值
+  var maxProfit = function (prices) {
+    let result = [];
+    let dp = [];
+    dp[0] = 0;
+    for (let i = 1; i < prices.length; i++) {
+      dp[i] = 0
+      for (let j = 0; j < i; j++) {
+        if (prices[i] > prices[j]) {
+          dp[i] = dp[j] + prices[i] - prices[j]
+        }
+      }
+    }
+    return Map.max.apply(null, dp)
+  };
+  // maxProfit([7,1,5,3,6,4])
+  // 不同路径
+  var uniquePaths = function (m, n) {
+    let result = [];
+    result[0] = []
+    for (let i = 1; i <= n; i++) {
+      result[i] = []
+      for (let j = 1; j <= m; j++) {
+        if (i == 1) {
+          result[i][j] = 1
+        } else {
+          result[i][j] = (result[i - 1][j] || 0) + (result[i][j - 1] || 0)
+        }
+      }
+    }
+    console.log(result)
+    return result[n][m]
+  };
+  // console.log(uniquePaths(3,2))
+
+  var uniquePathsWithObstacles = function (obstacleGrid) {
+    let result = [];
+    let x, y;
+    for (let i = 0; i < obstacleGrid.length; i++) {
+      result[i] = []
+      let data = obstacleGrid[i]
+      for (let j = 0; j < data.length; j++) {
+        if (data[j] == 0) {
+          result[i][j] = getValue(i - 1, j) + getValue(i, j - 1)
+        } else {
+          result[i][j] = 0;
+        }
+        if(i == 0 && j ==0 && data[0] == 0){
+          result[i][j] = 1
+        }
+        y = j
+      }
+      x = i
+    }
+    return result[x][y]
+
+    function getValue(i, j) {
+      if (result[i] != undefined && result[i][j] != undefined) {
+        return result[i][j]
+      } else {
+        return 0
+      }
+    }
+  };
+  uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]])
 </script>
