@@ -72,7 +72,7 @@
         d: [1, 2, 3, 4],
         e: {
             ee: 1,
-            eeee:[9,8,7]
+            eeee: [9, 8, 7]
         }
     }
 
@@ -150,11 +150,11 @@
                     if (typeof element === "object" && element !== null) {
                         stack.push({
                             parent: res,
-                            type: Array.isArray(data[k])? []:{},
+                            type: Array.isArray(data[k]) ? [] : {},
                             key: k,
                             data: data[k]
                         })
-                    }else {
+                    } else {
                         res[k] = data[k]
                     }
                 }
@@ -162,6 +162,21 @@
         }
         return root;
     }
-    // var a = 0;
+    var a = {
+        c: null,
+        d: [1, 2, 3, 4],
+    }
     console.log(myClone(a))
+
+    /*
+        var a = {
+        b: undefined,
+        c: null,
+        d: [1, 2, 3, 4],
+        e: {
+            ee: 1,
+            eeee:[9,8,7]
+        }
+    }
+    */
 </script>
