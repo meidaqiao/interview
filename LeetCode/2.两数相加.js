@@ -42,17 +42,20 @@
  * @return {ListNode}
  */
 var addTwoNumbers = function(l1, l2) {
-    function getNum(list){
-        let result = []
-        let stack = []
-        stack.push(list)
-        if(stack.length){
-            result.unshift(list.val)
-            if(list.next)stack.push(list.next)
-        }
-        return result.join("")-0;
+    let head = new ListNode("head");
+    let temp = head;
+    let add = 0;
+    let sum = 0;
+    while(l1 || l2) {
+        sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + add;
+        temp.next = new ListNode(sum%10);
+        temp = temp.next;
+        add = sum >= 10? 1: 0
+        l1 && (l1 = l1.next);
+        l2 && (l2 = l2.next);
     }
-    return getNum(l1) + getNum(l2)
+    add && (temp.next = new ListNode(add));
+    return head.next;
 };
 // @lc code=end
 
