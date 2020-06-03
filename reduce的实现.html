@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    Array.prototype.myreduce = function(callbackfn) {
+        const that = this,
+        len = that.length;
+        let k = 0,
+        accumulator = undefined,
+        kPresent = false,
+        initialValue = arguments.length > 1 ? arguments[1] : undefined;
+        if (typeof callbackfn !== "function") {
+            throw new Error("callbackfn不是函数")
+        }
+        if (len === 0 && arguments.length < 2){
+            throw new Error("数组为空")
+        }
+        if(arguments.length > 1){
+            accumulator = initialValue
+        } else {
+            accumulator = that[k]
+            ++k
+        }
+        while (k < len) {
+            kPresent = that.hasOwnProperty(k);
+            if(kPresent) {
+                const kvalue = that(k);
+                accumulator = callbackfn.apply(undefined, [accumulator, kvalue, k, that])
+            }
+            ++k
+        }
+        return accumulator;
+    }
+</script>

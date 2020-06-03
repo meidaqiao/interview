@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    //分析:1,2,3会同时输出,过2s后又会同时输出4,5,6.最需要引起注意的便是类Scheduler中的add方法中的第一句,
+    //通过await阻塞Promise但是又不执行resolve,而是将resolve保存到数组当中去,
+    //这样就达到了当异步任务超过3个时线程就会阻塞在第一行.
+    //每执行完一个异步任务就会去数组中查看一下有没有还处于阻塞当中的异步任务,如果有的话就执行最前面的那个异步任务.
+    class Scheduler {
+        list = []; //用来承载还未执行的异步
+        count = 0; //用来计数
+        constructor(num) {
+            this.num = num; //允许同时运行的异步函数的最大个数
+        }
+        async add(fn) {
+            this.count >= this.num ? await new Promise((resolve) => {
+                this.list.push(resolve)
+            }) : "";
+            this.count++;
+            const result = await fn();
+            this.count--;
+            if (this.list.length > 0) {
+                this.list.shift()();
+            }
+            return result;
+        }
+    }
+    const schedule = new Scheduler(3); //最多同一时间让它执行3个异步函数
+
+    const asyncFacotory = (n, time) => {
+        return () => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(n);
+                }, time)
+            })
+        }
+    }
+
+    schedule.add(asyncFacotory(1, 2000)).then((n) => {
+        console.log(`异步任务:${n}`)
+    });
+    schedule.add(asyncFacotory(2, 1000)).then((n) => {
+        console.log(`异步任务:${n}`)
+    });
+    schedule.add(asyncFacotory(3, 2000)).then((n) => {
+        console.log(`异步任务:${n}`)
+    });
+    schedule.add(asyncFacotory(1.1, 2000)).then((n) => {
+        console.log(`异步任务:${n}`)
+    });
+    schedule.add(asyncFacotory(2.2, 1500)).then((n) => {
+        console.log(`异步任务:${n}`)
+    });
+    schedule.add(asyncFacotory(3.3, 2000)).then((n) => {
+        console.log(`异步任务:${n}`)
+    });
+</script>
