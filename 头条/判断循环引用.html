@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    var obj1 = {
+        a: "1"
+    };
+    obj1.b = {};
+    obj1.b.a = obj1.b;
+    var obj2 = {
+        a: {
+            c: "1"
+        }
+    };
+    obj2.a.b = obj2;
+    var obj3 = {
+        a: 1,
+        b: 2,
+        c: {
+            d: 4
+        },
+        d: {},
+        e: {}
+    }
+
+    var obj1 = {
+        a: "1"
+    };
+    obj1.b = {};
+    obj1.b.a = obj1.b;
+    obj1.b.b = obj1.b;
+
+    var obj1 = {
+        a: "1"
+    };
+    obj1.b = {};
+    obj1.b.a = obj1.b;
+    obj1.b.b = obj1.b;
+
+    var obj4 = {
+        a: "1"
+    };
+    obj4.b = {
+        c: 1
+    };
+    obj4.aa = obj4.b;
+    obj4.bb = obj4.b;
+
+    var obj5 = {
+        a: "1"
+    };
+    obj5.b = {};
+    obj5.b.a = obj5.b;
+    obj5.b.b = obj5.b;
+    const isLoop = (originObj) => {
+        let wm = new WeakMap();
+        let rs = false;
+        function dp(obj) {
+            let cwm = new WeakMap();
+            if (!wm.has(obj)) {
+                wm.set(obj, obj)
+            }
+            let keys = Object.keys(obj);
+            // for (let i = 0, len = keys.length; i < len; i++) {
+            //     key = keys[i];
+
+            //     if (typeof obj[key] === 'object') {
+            //         if (cwm.has(obj[key])) {
+            //             // 如果同层级的互相引用了，终结掉
+            //             obj[key] = {};
+            //         } else {
+            //             cwm.set(obj[key], obj[key]);
+            //         }
+            //     }
+            // }
+            for (let i = 0, len = keys.length; i < len; i++) {
+                key = keys[i];
+
+                if (typeof obj[key] === 'object') {
+                    if (wm.has(obj[key])) {
+                        // 如果循环引用了，终结掉
+                        obj[key] = {};
+                        rs = true;
+                    } else {
+                        wm.set(obj[key], obj[key])
+                    }
+                    dp(obj[key])
+                }
+            }
+        }
+        dp(originObj);
+        return rs;
+    }
+
+    console.log(isLoop(obj1));
+    console.log(isLoop(obj2));
+    console.log(isLoop(obj3));
+    console.log(isLoop(obj4));
+    console.log(isLoop(obj5));
+</script>
