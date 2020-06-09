@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    function myPromise(arr) {
+        let result = [];
+        return new Promise(function (resolve, reject) {
+            let i = 0;
+            next;
+            function next() {
+                arr[i].then((res) => {
+                    result.push(res);
+                    i++;
+                    if (i == arr.length) {
+                        resolve(result);
+                    } else {
+                        next()
+                    }
+                });
+            }
+        })
+    }
+    // 串行执行
+    let parallelPromises = promises.reduce(
+        (total, currentValue) => total.then(() => currentValue.then(print)), Promise.resolve()
+    )
+</script>
