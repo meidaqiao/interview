@@ -26,20 +26,42 @@
     node3.next = node4
     let add = 1;
     let sum = 0
+
     function consoleList(node) {
         // while (node) {
         //     console.log(node.val)
         //     node = node.next
         // }
-        if(node == null){
+        if (node == null) {
             return
-        }else {
+        } else {
             consoleList(node.next);
             sum = node.val + add;
-            add = node.val + add >= 10? 1 :0
+            add = node.val + add >= 10 ? 1 : 0
             node.val = sum % 10
             console.log(node.val)
         }
     }
-    consoleList(node1)
+    // consoleList(node1)
+    function hasProperty(obj, str) {
+        let arr = str.split(".");
+        let flag = true;
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] in obj) {
+                let key = arr[i]
+                obj = obj[key]
+            } else {
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    var obj = {
+        x: {
+            y: {
+                z: 1
+            }
+        }
+    }
+    console.log(hasProperty(obj, "x.y.z"))
 </script>
