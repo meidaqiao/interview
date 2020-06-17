@@ -43,24 +43,21 @@
 var deleteDuplicates = function (head) {
     let result = new ListNode(null)
     result.next = head;
-    let node = result.next;
-    let last = result;
-    while (node) {
-        let val = node.val;
-        let temp = node.next;
-        if(temp && (temp.val == val)) {
-            while(temp){
-                if(temp.val == val) {
-                    temp = temp.next
-                }else {
-                    last.next = temp;
-                    temp = null;
-                }
+    let fast = result.next;
+    let slow = result;
+    while (fast) {
+        if(fast.next && fast.val === fast.next.val) {
+            let temp = fast.val;
+            while(fast && temp == fast.val){
+                fast = fast.next
             }
+        }else {
+            slow.next = fast;
+            slow = fast;
+            fast = fast.next
         }
-        last = node;
-        node = node.next
     }
+    slow.next = fast
     return result.next
 };
 // @lc code=end
