@@ -1,178 +1,245 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        .wrap{
+
+        .wrap {
             display: flex;
-            border:1px solid #000;
+            border: 1px solid #000;
             width: 600px;
-            margin:0 auto;
+            margin: 0 auto;
             height: 150px;
             align-items: center;
-            justify-content:center;
+            justify-content: center;
         }
-        .wrap div{
+
+        .wrap div {
             display: flex;
             height: 70%;
             width: 44%;
-            margin:0 3%;
-            border:1px solid #000;
-            justify-content:center;
+            margin: 0 3%;
+            border: 1px solid #000;
+            justify-content: center;
             align-items: center;
             background: #fff;
         }
-        .btn-wrap{
+
+        .btn-wrap {
             text-align: center;
             padding-top: 20px;
         }
-        .btn-wrap button{
-            display: inline-block;
-            padding:4px 10px;
-        }
 
+        .btn-wrap button {
+            display: inline-block;
+            padding: 4px 10px;
+        }
     </style>
 </head>
+
 <body>
-<div class="wrap">
-    <div>
+    <div class="wrap">
         <div>
             <div>
-                <div></div>
-                <div></div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
             <div>
-                <div></div>
-                <div></div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
         <div>
             <div>
-                <div></div>
-                <div></div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
             <div>
-                <div></div>
-                <div></div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
     </div>
-    <div>
-        <div>
-            <div>
-                <div></div>
-                <div></div>
-            </div>
-            <div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-        <div>
-            <div>
-                <div></div>
-                <div></div>
-            </div>
-            <div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
+    <div class="btn-wrap">
+        <button>前序</button>
+        <button>中序</button>
+        <button>后序</button>
     </div>
-</div>
-<div class="btn-wrap">
-    <button>前序</button>
-    <button>中序</button>
-    <button>后序</button>
-</div>
-<script>
-    var wrap = document.querySelector(".wrap");
-    var btn_wrap = document.querySelector(".btn-wrap");
-    var btn1 = btn_wrap.querySelectorAll("button")[0];
-    var btn2 = btn_wrap.querySelectorAll("button")[1];
-    var btn3 = btn_wrap.querySelectorAll("button")[2];
-    var arr = [];
-    var last;
-    var toggle = false;
-    //给按钮绑定事件
-    btn1.onclick = function(){
-        if(!toggle){
-            toggle = true;
-            reset();
-            preOrder(wrap);
-            showWay();
+    <script>
+        function node(val) {
+            this.val = val;
+            this.left = this.right = null;
         }
-    }
-    btn2.onclick = function(){
-        if(!toggle){
-            toggle = true;
-            reset();
-            inOrder(wrap);
-            showWay();
-        }
-    }
-    btn3.onclick = function(){
-        if(!toggle){
-            toggle = true;
-            reset();
-            postOrder(wrap);
-            showWay();
-        }
-    }
-    //二叉树的遍历的三种方式
-    //(1)前序遍历（DLR
-    function preOrder(node){
-        if(node){
-            arr.push(node);
-            preOrder(node.firstElementChild);
-            preOrder(node.lastElementChild);
-        }
-    }
-    //(2)中序遍历（LDR）
-    function inOrder(node){
-        if(node){
-            inOrder(node.firstElementChild);
-            arr.push(node);
-            inOrder(node.lastElementChild);
-        }
-    }
-    //(3)后序遍历（LRD）
-    function postOrder(node){
-        if(node){
-            postOrder(node.firstElementChild);
-            postOrder(node.lastElementChild);
-            arr.push(node);
-        }
-    }
-    //显示遍历的过程
-    function showWay(){
-        for(var i=0; i<arr.length; i++){
-            setTimeout(function(i){
-                return function(){
-                    if(i == arr.length-1){
-                        toggle = false;
-                    }
-                    if(last){
-                        last.style.background = "white";
-                    }
-                    arr[i].style.background = "red";
-                    last = arr[i];
+        var root1 = new node(1)
+        var root2 = new node(2)
+        var root3 = new node(3)
+        var root4 = new node(4)
+        var root5 = new node(5)
+        var root6 = new node(6)
+        var root7 = new node(7)
+        var root8 = new node(8)
+        var root9 = new node(9)
+        var root10 = new node(10)
+        root1.left = root2
+        root1.right = root3
+        root2.left = root4
+        root2.right = root5
+        root4.left = root8
+        root5.left = root9
+        root5.right = root10
+        root3.left = root6
+        root3.right = root7
+
+        function l(node) {
+            let stack = [node];
+            let result = [];
+            while (stack.length) {
+                let arr = [];
+                let temp = [];
+                while (stack.length) {
+                    let curt = stack.shift();
+                    curt && arr.push(curt.val);
+                    curt.left && temp.push(curt.left);
+                    curt.right && temp.push(curt.right);
                 }
-            }(i),i*1000)
+                stack = temp;
+                result.push(arr)
+            }
+            return result;
         }
-    }
-    //初始化
-    function reset(){
-        arr = [];
-        if(last){
-            last.style.background = "white";
+        // console.log(l(root1))
+        let result = []
+        let arr = [];
+
+        function nodeSum(node) {
+            node && arr.push(node.val);
+            node.left && nodeSum(node.left);
+            node.right && nodeSum(node.right);
+            if (node.left == null && node.right == null) {
+                result.push(arr.concat())
+
+            }
+            arr.pop()
         }
-    }
-</script>
+        // nodeSum(root1);
+        const promise1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(5)
+            }, 1000)
+        })
+        const promise2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(1)
+            }, 3000)
+        })
+
+        const promise3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(7)
+            }, 5000)
+        })
+        var promiseArr = [promise1, promise2, promise3];
+
+        function asyncFunc(num) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // console.log(Date.now())
+                    // console.log(num)
+                    resolve(num)
+                }, num * 1000)
+            })
+        }
+        async function syncList(arr) {
+            let result = [];
+            console.log(Date.now())
+            for (let index = 0; index < arr.length; index++) {
+                console.log(index + "+" + Date.now())
+                let res = await asyncFunc(index + 1);
+                result.push(res)
+                // console.log(Date.now())
+                // console.log(res)
+            }
+            console.log(result)
+            console.log(Date.now())
+            return result;
+        }
+        // console.log(syncList([asyncFunc(3), asyncFunc(1), asyncFunc(2), asyncFunc(6)]))
+        function myPromiseAll(arr) {
+            let len = arr.length;
+            let result = []
+            return new Promise((resolve, reject) => {
+                arr.forEach((item, index) => {
+                    item.then((res) => {
+                        result[index] = res
+                        if (result.length == arr.length && !isEmpty(result)) {
+                            resolve(result)
+                        }
+                    })
+                });
+            })
+        }
+
+        function isEmpty(obj) {
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key))
+                    return false;
+            }
+            return true;
+        }
+        myPromiseAll([asyncFunc(3), asyncFunc(1), asyncFunc(2), asyncFunc(6)]).then((res) => {
+            console.log(res)
+        })
+
+        class Scheduler{
+            list = [];
+            count = 0;
+            constructor(num) {
+                this.num = num
+            }
+            async add(fn) {
+                this.count >= this.num ? await new Promise((resolve) => {
+                    this.list.push(resolve)
+                }):""
+                this.count++
+                let result = await fn()
+                this.count--
+                if(this.list.length > 0){
+                    this.list.shift()();
+                }
+                return result;
+            }
+        }
+    </script>
 </body>
+
 </html>

@@ -63,5 +63,44 @@
             }
         }
     }
-    console.log(hasProperty(obj, "x.y.z"))
+    // console.log(hasProperty(obj, "x.y.z"))
+    function get(arr) {
+        let result = [];
+        result.push([])
+
+        function digui(index, item) {
+            if (index >= arr.length) {
+                return;
+            }
+            item.push(arr[index])
+            result.push(item.concat())
+            digui(index + 1, item);
+            item.pop();
+            digui(index + 1, item)
+        }
+        digui(0, []);
+        return result;
+    }
+    // console.log(get([1,2,3]))
+    function getArr(arr) {
+        let result = [];
+        let len = arr.length
+        function digui(item, index) {
+            if (item.length == len || index > len) {
+                result.push(item.concat())
+                return
+            }
+            for (let i = 0; i < arr[index].length; i++) {
+                item.push(arr[index][i])
+                digui(item, index + 1)
+                item.pop()
+            }
+        }
+        digui([], 0)
+        return result
+    }
+    console.log(getArr([
+        [1, 2, 3],
+        [4, 5, 6]
+    ]))
 </script>

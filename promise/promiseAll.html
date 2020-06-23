@@ -13,26 +13,48 @@
 
 </html>
 <script>
-    function myPromise(arr) {
-        let result = [];
-        return new Promise(function (resolve, reject) {
-            let i = 0;
-            next;
-            function next() {
-                arr[i].then((res) => {
-                    result.push(res);
-                    i++;
-                    if (i == arr.length) {
-                        resolve(result);
-                    } else {
-                        next()
-                    }
-                });
+    // function myPromise(arr) {
+    //     let result = [];
+    //     return new Promise(function (resolve, reject) {
+    //         let i = 0;
+    //         next;
+    //         function next() {
+    //             arr[i].then((res) => {
+    //                 result.push(res);
+    //                 i++;
+    //                 if (i == arr.length) {
+    //                     resolve(result);
+    //                 } else {
+    //                     next()
+    //                 }
+    //             });
+    //         }
+    //     })
+    // }
+    // // 串行执行
+    // let parallelPromises = promises.reduce(
+    //     (total, currentValue) => total.then(() => currentValue.then(print)), Promise.resolve()
+    // )
+    function isImpty(obj) {
+        for (let key in obj) {
+            // console.log(obj.hasOwnProperty(key))
+            if (obj.hasOwnProperty(key)) {
+                return false;
             }
-        })
+        }
+        return true;
     }
-    // 串行执行
-    let parallelPromises = promises.reduce(
-        (total, currentValue) => total.then(() => currentValue.then(print)), Promise.resolve()
-    )
+
+    function isEmpty(obj) {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    }
+    var arr = []
+    arr[1] = 1;
+    // arr[0] = 2;
+    console.log(arr)
+    console.log(isEmpty(arr))
 </script>
