@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    function queen(a, cur) {
+        if (cur == a.length) {
+            console.log(a);
+            return;
+        }
+        for (var i = 0; i < a.length; i++) {
+            a[cur] = i;
+            var flag = true;
+            for (var j = 0; j < cur; j++) {
+                var ab = i - a[j];
+                if (a[j] == i || (ab > 0 ? ab : -ab) == cur - j) {
+                    flag = false;
+                    break
+                };
+            };
+            if (flag) {
+                queen(a, cur + 1);
+            }
+        };
+    };
+    // queen([1, 1, 1, 1], 0)
+    var solveNQueens = function (n) {
+        let result = [];
+        let shu = new Set();
+        let left = new Set();
+        let right = new Set();
+        function get(row, res) {
+            if (row >= n) {
+                result.push(res.concat())
+                return;
+            }
+            for (let i = 0; i < n; i++) {
+                if(shu.has(i) || left.has(row + i) || right.has(i - row)){
+                    continue;
+                }
+                res.push(i)
+                shu.add(i)
+                left.add(row + i)
+                right.add(i - row)
+                get(row + 1, res)
+                res.pop();
+                shu.delete(i)
+                left.delete(row + i)
+                right.delete(i - row)
+            }
+        }
+        get(0, [])
+        //[ [1, 3, 0, 2],[2, 0, 3, 1]]
+        return result.map(function(arr) {
+            return arr.map(function(item) {
+                let str = ""
+                for(let i = 0; i < n; i++){
+                    if(item == i){
+                        str+="Q"
+                    }else {
+                        str+="."
+                    }
+                }
+                return str
+            })
+        });
+    };
+    console.log(solveNQueens(4))
+    let result = [ [1, 3, 0, 2],[2, 0, 3, 1]]
+    let aa = result.map(function(arr) {
+            return arr.map(function(item) {
+                let str = ""
+                for(let i = 0; i < 4; i++){
+                    if(item == i){
+                        str+="Q"
+                    }else {
+                        str+="."
+                    }
+                }
+                return str
+            })
+        });
+    // console.log(aa)
+</script>
