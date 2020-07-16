@@ -33,31 +33,46 @@
  * @param {string} s
  * @return {string}
  */
-var longestPalindrome = function (s) {
-    if (s.length) {
-        var ans = "";
-        var max = 0;
-        var len = s.length;
-        for (var i = 0; i < len; i++)
-            for (var j = i + 1; j <= len; j++) {
-                var test = s.substring(i, j);
-                if (flagHuiWen(test) && test.length >= max) {
-                    ans = s.substring(i, j);
-                    max = Math.max(max, ans.length);
-                }
+// var longestPalindrome = function (s) {
+//     if (s.length) {
+//         var ans = "";
+//         var max = 0;
+//         var len = s.length;
+//         for (var i = 0; i < len; i++)
+//             for (var j = i + 1; j <= len; j++) {
+//                 var test = s.substring(i, j);
+//                 if (flagHuiWen(test) && test.length >= max) {
+//                     ans = s.substring(i, j);
+//                     max = Math.max(max, ans.length);
+//                 }
+//             }
+//         return ans;
+//     } else {
+//         return ""
+//     }
+// };
+// function flagHuiWen(s) {
+//     var len = s.length;
+//     for (var i = 0; i < len / 2; i++) {
+//         if (s.charAt(i) != s.charAt(len - i - 1)) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+var longestPalindrome = function(s) {
+    let n = s.length;
+    let res = "";
+    let dp = Array.from(new Array(n),() => new Array(n).fill(0));
+    for(let i = n-1;i >= 0;i--){
+        for(let j = i;j < n;j++){
+            dp[i][j] = s[i] == s[j] && (j - i < 2 || dp[i+1][j-1]); //核心的状态转移方程
+            if(dp[i][j] && j - i +1 > res.length){
+                res = s.substring(i,j+1);
             }
-        return ans;
-    } else {
-        return ""
-    }
-};
-function flagHuiWen(s) {
-    var len = s.length;
-    for (var i = 0; i < len / 2; i++) {
-        if (s.charAt(i) != s.charAt(len - i - 1)) {
-            return false;
         }
     }
-    return true;
+    return res;
 }
+
 
