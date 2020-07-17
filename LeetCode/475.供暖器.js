@@ -52,17 +52,25 @@
  * @param {number[]} heaters
  * @return {number}
  */
-var findRadius = function(houses, heaters) {
-    if (heaters.length == 1) {
-        if(houses.includes(heaters[0])){
-            return houses.findIndex(a => a == heaters[0])
-        }else {
-            return houses.length
+var findRadius = function (houses, heaters) {
+    houses.sort((a, b) => a - b);
+    heaters.sort((a, b) => a - b);
+    let count = 0;
+    let nums = [];
+    for (let i = 0; i < houses.length; i++) {
+        count = Math.abs(houses[i]-heaters[0]);
+        for(let j = 0; j < heaters.length; j++) {
+            if (Math.abs(houses[i]-heaters[j]) > count) {
+                break;
+            }
+            if (Math.abs(houses[i]-heaters[j]) < count) {
+                count = Math.abs(houses[i]-heaters[j]);
+            }
         }
+        nums[i] = count;
     }
-    var len = houses.findIndex(a => a == heaters[1]) - houses.findIndex(a => a == heaters[0]);
-    console.log(len)
-    return Math.ceil((len - 1) / 2)
+    nums.sort((a, b) => a - b);
+    return nums[nums.length-1]
 };
 // @lc code=end
 
