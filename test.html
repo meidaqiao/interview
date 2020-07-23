@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 
 <body>
@@ -13,34 +13,20 @@
 
 </html>
 <script>
-    var findRadius = function (houses, heaters) {
-        let len = 0
-        if (houses.join("") == heaters.join("")) return 0;
-        if (heaters.length == 1) {
-            for (let i = 0; i < houses.length; i++) {
-                let line = Math.abs(houses[i] - heaters[0])
-                if (line > len) {
-                    len = line;
-                }
-            }
-            return len;
-        } else {
-            heaters = heaters.filter(a => a > houses[0]).filter(a => a < houses[houses.length - 1])
-            console.log(heaters)
-            heaters.unshift(houses[0])
-            heaters.push(houses[houses.length - 1])
-            heaters = [...new Set(heaters)]
-            let flag = false;
-            for (let i = 1; i < heaters.length; i++) {
-                let line = Math.abs(heaters[i] - heaters[i - 1])
-                flag = false
-                if (line > len) {
-                    len = line
-                    flag = true
-                }
-            }
-            return flag ? len : Math.ceil(len / 2)
-        }
-    };
-    console.log(findRadius([1,2,3,5,15], [2, 30]))
+  var dailyTemperatures = function (T) {
+    let source = T.reverse();
+    let stack = [];
+    let result = [];
+    for (let i = 0; i < source.length; i++) {
+      let num = 0
+      while (stack.length > 0 && source[i] >= source[stack[stack.length - 1]]) {
+        stack.pop();
+        // break;
+      }
+      result[i] = stack.length == 0 ? 0 : i - stack[stack.length - 1]
+      stack.push(i)
+    }
+    return result.reverse();
+  };
+  console.log(dailyTemperatures([89,62,70,58,47,47,46,76,100,70]))
 </script>
