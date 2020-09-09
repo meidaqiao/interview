@@ -13,94 +13,36 @@
 
 </html>
 <script>
-    function ListNode(val) {
-        this.val = val;
-        this.next = null;
-    }
-    let node1 = new ListNode(1);
-    let node2 = new ListNode(2);
-    let node3 = new ListNode(3);
-    let node4 = new ListNode(9);
-    node1.next = node2
-    node2.next = node3
-    node3.next = node4
-    let add = 1;
-    let sum = 0
-
-    function consoleList(node) {
-        // while (node) {
-        //     console.log(node.val)
-        //     node = node.next
-        // }
-        if (node == null) {
-            return
-        } else {
-            consoleList(node.next);
-            sum = node.val + add;
-            add = node.val + add >= 10 ? 1 : 0
-            node.val = sum % 10
-            console.log(node.val)
+var canVisitAllRooms = function(rooms) {
+    let result = new Map();
+    rooms.forEach((item, index) => {
+        if(index == 0) {
+            result.set(0, true)
+        }else {
+            result.set(index, false)
         }
-    }
-    // consoleList(node1)
-    function hasProperty(obj, str) {
-        let arr = str.split(".");
-        let flag = true;
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i] in obj) {
-                let key = arr[i]
-                obj = obj[key]
-            } else {
-                flag = false;
+    })
+    let start = rooms[0]
+    for(let i = 0; i < start.length; i++) {
+        result.set(start[i], true)
+        get(start[i])
+    } 
+    function get(item) {
+        let start = rooms[item]
+        for(let i = 0; i < start.length; i++) {
+            if(result.get(start[i])){
+                continue;
+            }else {
+                result.set(start[i], true)
+                get(start[i])
             }
-        }
-        return flag;
+        } 
     }
-    var obj = {
-        x: {
-            y: {
-                z: 1
-            }
-        }
-    }
-    // console.log(hasProperty(obj, "x.y.z"))
-    function get(arr) {
-        let result = [];
-        result.push([])
-
-        function digui(index, item) {
-            if (index >= arr.length) {
-                return;
-            }
-            item.push(arr[index])
-            result.push(item.concat())
-            digui(index + 1, item);
-            item.pop();
-            digui(index + 1, item)
-        }
-        digui(0, []);
-        return result;
-    }
-    // console.log(get([1,2,3]))
-    function getArr(arr) {
-        let result = [];
-        let len = arr.length
-        function digui(item, index) {
-            if (item.length == len || index > len) {
-                result.push(item.concat())
-                return
-            }
-            for (let i = 0; i < arr[index].length; i++) {
-                item.push(arr[index][i])
-                digui(item, index + 1)
-                item.pop()
-            }
-        }
-        digui([], 0)
-        return result
-    }
-    console.log(getArr([
-        [1, 2, 3],
-        [4, 5, 6]
-    ]))
+    let arr = [];
+    result.forEach((value, key) => {
+        arr.push(value)
+    })
+    return arr.every(item => item == true)
+};
+    console.log(canVisitAllRooms([[1,3],[3,0,1],[2],[0]]))
 </script>

@@ -13,20 +13,30 @@
 
 </html>
 <script>
-  var dailyTemperatures = function (T) {
-    let source = T.reverse();
-    let stack = [];
-    let result = [];
-    for (let i = 0; i < source.length; i++) {
-      let num = 0
-      while (stack.length > 0 && source[i] >= source[stack[stack.length - 1]]) {
-        stack.pop();
-        // break;
+  function node(val) {
+    this.val = val;
+    this.left = this.right = null;
+  }
+  var root1 = new node(5)
+  var root2 = new node(1)
+  var root3 = new node(4)
+  var root4 = new node(3)
+  var root5 = new node(6)
+  root1.left = root2
+  root1.right = root3
+  root3.left = root4
+  root3.right = root5
+  var isValidBST = function (node) {
+    function get(root) {
+      if (!root) return true;
+      if (root.left == null && root.right == null) return true;
+      if (root.left.val > root.val || root.right.val < root.val) {
+        return false
+      } else {
+        return get(root.left) && get(root.right)
       }
-      result[i] = stack.length == 0 ? 0 : i - stack[stack.length - 1]
-      stack.push(i)
     }
-    return result.reverse();
+    return get(node)
   };
-  console.log(dailyTemperatures([89,62,70,58,47,47,46,76,100,70]))
+  console.log(isValidBST(root1))
 </script>
